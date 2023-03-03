@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.membership{
+    width: 30%;
+    border: 1px solid rgba(0,0,0,0.1);
+    height: 150px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+}
+
+.membership div {
+    display: flex;
+}
+
+.membership:hover {
+    border: 3px solid rgba(0,0,0,0.5);
+}
+
+form {
+    display: none;
+}
