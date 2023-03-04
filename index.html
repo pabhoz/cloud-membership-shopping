@@ -8,27 +8,71 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-    <div class="membership"><div>Bronze</div>
-    <div>10 USD</div></div>
-    <div class="membership"><div>Silver</div>
-    <div>20 USD</div></div>
-    <div class="membership"><div>Gold</div>
-    <div>40 USD</div></div>
+    <div id="membershipHolder">
+        <div class="membership"><div>Bronze</div>
+        <div>10 USD</div></div>
+        <div class="membership"><div>Silver</div>
+        <div>20 USD</div></div>
+        <div class="membership"><div>Gold</div>
+        <div>40 USD</div></div>
+    </div>
 
-    <form action="">
-        <input type="text" placeholder="Name">
-        <input type="text" placeholder="NID">
-        <input type="email" placeholder="Email">
-        <input type="submit" value="">
+    <form id="shoppingForm">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="nid" placeholder="NID">
+        <input type="email" id="email" placeholder="Email">
+        <input type="submit" value="Comprar">
     </form>
 
     <script>
+        var data = {
+            membershipPlan: undefined,
+            value: undefined,
+            buyer: {
+                name: undefined,
+                nid: undefined,
+                email: undefined
+            }
+        };
+
         const memberships = document.querySelectorAll(".membership");
         memberships.forEach((membership) => {
             membership.onclick = (e) => {
-                alert("Funciona");
+                const mHolder = document.querySelector("#membershipHolder");
+                mHolder.style.display = "none";
+                const form = document.querySelector("form");
+                form.style.display = "flex";
+                const [membershipPlanHTMLEl, valueHTMLEl] = e.target.children;
+                data.membershipPlan = membershipPlanHTMLEl.innerHTML;
+                data.value = +valueHTMLEl.innerHTML.split("USD")[0];
             }
-        })
+        });
+
+        async function saveShopping() {
+            var url = 'https://9t39pcjymh.execute-api.us-east-1.amazonaws.com/dev/shopping';
+
+            fetch(url, {
+            method: 'POST',
+            mode: "cors", 
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+            }).then(res => res.json())
+            .catch(error => console.error('Error:', error))
+            .then(response => console.log('Success:', response));
+        }
+
+        const form = document.querySelector("#shoppingForm");
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            data.buyer.name = form.querySelector("#name").value;
+            data.buyer.nid = form.querySelector("#nid").value;
+            data.buyer.email = form.querySelector("#email").value;
+            console.log(data);
+
+            await saveShopping();
+        }
     </script>
 </body>
 </html>

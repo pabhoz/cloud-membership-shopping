@@ -3,6 +3,12 @@ body {
     justify-content: center;
     align-items: center;
 }
+#membershipHolder {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
 .membership{
     width: 30%;
     border: 1px solid rgba(0,0,0,0.1);
@@ -24,4 +30,5 @@ body {
 
 form {
     display: none;
+    flex-flow: column;
 }
